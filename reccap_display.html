@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ARMS - GUI SUGGESTION</title>
+
+	<!-- LOAD ROBOTO FONT -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+
+	<!-- LOAD DEMO CLIENT -->
+	<script type="text/javascript" src="reccap_display.js"></script>
+	<link rel="stylesheet" href="reccap_display.css">
+
+
+</head>
+<body>
+	<div class="topLine">DEMO - ARMS GUI - SUGGESTION</div>
+
+	<div class="mainWrap">
+
+		<div class="nameLine">Rob Korobkin</div>
+
+		<div class="mainContent">
+
+
+			<!-- CONTROLS -->
+			<div class="controls">
+				
+				<input type="" id="search_str" placeholder="Search..." onkeyup="Reccap_writeAssessmentHTML()"/>
+
+				<select id="filter1" onchange="Reccap_writeAssessmentHTML()">
+					<option>All</option>
+					<option>Current Successes</option>
+					<option>Current Challenges</option>
+					<option>Original Successes</option>
+					<option>Original Challenges</option>
+				</select>
+
+				<select id="filter2" onchange="Reccap_writeAssessmentHTML()">
+					<option>All</option>
+					<option>Has Changed</option>
+					<option>Has Not Changed</option>
+				</select>
+
+			</div>
+
+
+			<!-- CANVAS -->
+			<div class="canvas" id="canvas">
+				
+			</div>
+
+		
+		</div>
+
+	</div>
+
+
+</body>
+</html>

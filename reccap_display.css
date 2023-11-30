@@ -1,0 +1,127 @@
+html, body {
+	padding: 0; margin: 0; box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+	background: rgb(249, 249, 249);
+
+}
+
+
+.topLine {
+	position: fixed;
+	background: black;
+	height: 63px;
+	width: 100%;
+	line-height: 63px;
+	color: white;
+	padding-left: 40px;
+}
+
+
+.mainWrap {
+	padding: 63px 40px;
+
+}
+
+.nameLine {
+	font-size: 24px;
+	line-height: 60px;
+	font-weight: bold;
+}
+
+.mainContent {
+	background: white;
+	margin-bottom: 30px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+
+.controls {
+	padding: 10px 15px 0;
+	border-bottom: solid 2px #ddd;
+/*			background: #ddd;*/
+}
+
+.controls label {
+	font-size: 13px; font-weight: bold;
+}
+
+#search_str {
+	line-height: 30px;
+	border-radius: 15px;
+	border: solid 1px #ccc;
+	font-size: 20px;
+	margin: 10px 10px 20px;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.controls select {
+	display: inline-block;
+	height: 27px;
+}
+
+#canvas {
+	padding: 30px;
+	background: white;
+}
+
+.reccap_section {
+	margin-bottom: 40px;
+}
+
+.reccap_section .header {
+	height: 30px;
+	border-bottom: solid 1px #ccc;
+}
+
+.reccap_section .header .col1 {
+	font-weight: bold;
+	font-size: 16px;
+}
+.reccap_section .header .date {
+	font-size: 12px;
+	font-style: italic;
+	padding-top: 10px;
+}
+
+.reccap_section .row {
+	height: 40px;
+	line-height: 40px;
+}
+
+.reccap_section .row .col1 {
+	font-size: 14px;
+}
+
+.reccap_section .row .btn {
+	border-radius: 5px;
+	color: white;
+	line-height: 20px;
+	display: inline-block;
+	padding: 0 20px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	text-transform: uppercase;
+}
+
+.reccap_section .row .btn.No {
+	background: red;
+}
+
+.reccap_section .row .btn.Yes {
+	background: green;
+}
+
+
+
+
+
+.col1 {
+	width: 500px;
+	float: left;
+}
+
+.data_col {
+	width: 100px;
+	float: left;
+	font-size: 12px;
+}
