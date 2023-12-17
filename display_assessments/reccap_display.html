@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head id="htmlHead">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>ARMS - GUI SUGGESTION</title>
@@ -11,14 +11,48 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
 
-	<!-- LOAD DEMO CLIENT -->
-	<script type="text/javascript" src="reccap_display.js"></script>
-	<link rel="stylesheet" href="reccap_display.css">
+	
+	
 
+	<script>
+
+		/** LOAD DEMO CLIENT - AVOID CACHING **/
+		window.onload = function(){
+
+			var client = {
+				js : 	['reccap_display.js'],
+				css : 	['reccap_display.css']
+			}
+
+
+			client.js.forEach(url => {
+				let ele = document.createElement("script");
+				ele.setAttribute("src", url + '?v=' + Math.random());
+				ele.setAttribute("type", "text/javascript");
+				ele.setAttribute("async", true);
+				document.body.appendChild(ele);
+			});
+
+			client.css.forEach(url => {
+				let ele = document.createElement("link");
+				ele.setAttribute("href", url + '?v=' + Math.random());
+				ele.setAttribute("rel", "stylesheet");
+				document.body.appendChild(ele);
+			});
+
+		}
+	</script>
 
 </head>
 <body>
-	<div class="topLine">DEMO - ARMS GUI - SUGGESTION</div>
+	<div class="topLine">DEMO - ARMS GUI - SUGGESTION
+
+		<a 	href="https://github.com/robkorobkin/reccap_suggestions" 
+			target="_blank"
+			style="display: block; right: 80px; position: absolute; top: 10px">
+			<img src="github.png" />
+		</a>
+	</div>
 
 	<div class="mainWrap">
 
@@ -46,12 +80,9 @@
 					<option>Has Not Changed</option>
 				</select>
 
-				<a 	href="https://github.com/robkorobkin/reccap_suggestions" 
-					target="_blank"
-					style="display: block; float: right; padding-top: 7px">
-					<img src="github_link.png" style="height: 40px" />
-				</a>
+				<button id="collapseCtrl" onclick="toggleSections()">Collapse</button>
 
+				
 			</div>
 
 

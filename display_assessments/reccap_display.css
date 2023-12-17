@@ -6,6 +6,8 @@ html, body {
 }
 
 
+
+
 .topLine {
 	position: fixed;
 	background: black;
@@ -18,7 +20,7 @@ html, body {
 
 
 .mainWrap {
-	padding: 63px 40px;
+	padding: 63px 40px 10px;
 
 }
 
@@ -30,7 +32,7 @@ html, body {
 
 .mainContent {
 	background: white;
-	margin-bottom: 30px;
+	
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -60,18 +62,107 @@ html, body {
 	height: 27px;
 }
 
+
+#collapseCtrl {
+	border-radius: 5px;
+	color: white;
+	background: #555;
+	line-height: 25px;
+	display: inline-block;
+	padding: 0 10px;
+	margin-left: 20px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+
 #canvas {
-	padding: 30px;
+	
 	background: white;
 }
 
+
+
+#chartHeader {
+	height: 70px;
+	border-bottom: solid 5px #ccc;
+	
+	padding-top: 10px;
+
+}
+
+#chartHeader .data_col {
+	background: white;
+	margin: 5px 0;
+	padding: 8px 8px 0 ;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+#chartHeader .date {
+	font-size: 11px;
+	font-style: italic;
+	padding-bottom: 5px;
+}
+
+#chartHeader .headerScore {
+	font-size: 20px;
+	line-height: 25px;
+	font-weight: bold;
+	font-style: normal;
+}
+
+
+#innerCanvas {
+	padding-top: 10px;
+	border: solid 1px #ccc;
+	overflow: auto;
+}
+
+
 .reccap_section {
-	margin-bottom: 40px;
+/*	margin-bottom: 40px;*/
 }
 
 .reccap_section .header {
-	height: 30px;
-	border-bottom: solid 1px #ccc;
+	height: 40px;
+	line-height: 40px;
+	border-top: solid 1px #ccc;
+	cursor: pointer;
+/*	overflow: hidden;*/
+}
+
+.reccap_section:first-child .header {
+	border-top: none;
+}
+
+
+
+.reccap_section .headerScore {
+	font-size: 16px;
+	line-height: 40px;
+	font-weight: bold;
+	font-style: normal;
+	text-align: center;
+}
+.low {
+	color: red;
+}
+.med {
+	color: #aaa;
+}
+.high {
+	color: green;
+}
+
+
+
+
+
+
+.reccap_section .body {
+	display: block;
 }
 
 .reccap_section .header .col1 {
@@ -81,7 +172,7 @@ html, body {
 .reccap_section .header .date {
 	font-size: 12px;
 	font-style: italic;
-	padding-top: 10px;
+	
 }
 
 .reccap_section .row {
@@ -89,27 +180,42 @@ html, body {
 	line-height: 40px;
 }
 
+.reccap_section .row:last-child {
+	margin-bottom: 40px;
+}
+
+
+.reccap_section .row .low {
+	background: red;
+}
+
+.reccap_section .row .med {
+	background: #555;
+}
+
+
+.reccap_section .row .high {
+	background: green;
+}
+
 .reccap_section .row .col1 {
 	font-size: 14px;
 }
+
 
 .reccap_section .row .btn {
 	border-radius: 5px;
 	color: white;
 	line-height: 20px;
 	display: inline-block;
-	padding: 0 20px;
+	
+	width: 60px;
+	text-align: center;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 	text-transform: uppercase;
 }
 
-.reccap_section .row .btn.No {
-	background: red;
-}
 
-.reccap_section .row .btn.Yes {
-	background: green;
-}
 
 
 
@@ -117,6 +223,7 @@ html, body {
 
 .col1 {
 	width: 500px;
+	padding-left: 10px;
 	float: left;
 }
 
@@ -124,4 +231,5 @@ html, body {
 	width: 100px;
 	float: left;
 	font-size: 12px;
+	text-align: center;
 }
