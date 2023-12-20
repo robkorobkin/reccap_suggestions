@@ -53,7 +53,7 @@ var reccap_records = {
 				},
 				{
 					'text' : 'Is happy with personal life',
-					'answers' : ['Yes', 'Yes']
+					'answers' : ['No', 'Yes']
 				},
 				{
 					'text' : 'Is satisfied with the involvement with family',
@@ -69,12 +69,12 @@ var reccap_records = {
 			'questions' : [
 				{
 					'text' 		: 'How good is your psychological health?' ,
-					'answers' 	: ['3', '17'],
+					'answers' 	: ['12', '17'],
 					'type'		: '20'
 				},
 				{
 					'text' : 'How good is your physical health?',
-					'answers' : ['7', '18'],
+					'answers' : ['18', '18'],
 					'type'		: '20'
 				},
 				{
@@ -136,6 +136,7 @@ function calculateSectionScores(){
 		reccap_section.questions.forEach((question, questionIndex) => {
 
 			question.answerCats = [];
+			question.answerScores = [];
 
 			question.answers.forEach((answer, examIndex) => {
 				if(answer == "No") {
@@ -152,11 +153,14 @@ function calculateSectionScores(){
 					if(aNum){
 						var denominator = parseFloat(question.type);
 						var answerNum = aNum / denominator;
+
 						if(answerNum < .33) question.answerCats.push('low');
 						else if(answerNum > .67) question.answerCats.push('high');
 						else question.answerCats.push('med')
 					} 
 				}
+
+				question.answerScores.push(answerNum);
 
 				total_scores[examIndex].push(answerNum);
 				
@@ -169,7 +173,7 @@ function calculateSectionScores(){
 			var total = 0;
 			answers.forEach(answer => total += answer);
 			var score = total / answers.length;
-			reccap_section.scores.push(score * 100);
+			reccap_section.scores.push(Math.floor(score * 100));
 		});
 		
 
@@ -237,7 +241,7 @@ function Reccap_testQuestion(question, reccap_viewState) {
 		question.answers.forEach(answer => { if(answer != original_state) goAhead = true; });
 		if(!goAhead) return false;
 	}
-	
+
 
 	if(change_status == 'Has Not Changed'){
 		var goAhead = true;
@@ -245,6 +249,24 @@ function Reccap_testQuestion(question, reccap_viewState) {
 		question.answers.forEach(answer => { if(answer != original_state) goAhead = false; });
 		if(!goAhead) return false;
 	}
+
+
+	
+	var original_score 	= question.answerScores[0];
+	var current_score 	= question.answerScores.slice(-1);
+
+	
+	if(change_status == 'Has Improved'){		
+		if(current_score <= original_score) return false;
+	}
+
+	if(change_status == 'Has Gotten Worse'){
+		if(current_score >= original_score) return false;
+	}
+
+
+	
+
 
 
 
@@ -371,9 +393,7 @@ Reccap_writeAssessmentHTML = function (){
 
 	document.getElementById('canvas').innerHTML = html;
 
-	// change text on collapse control
-	document.getElementById('collapseCtrl').innerHTML = 'collapse';
-	SectionsCollapsed = false;
+	
 
 
 	document.getElementById('innerCanvas').style.height = (window.innerHeight - 310) + 'px';
