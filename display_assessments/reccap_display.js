@@ -135,6 +135,8 @@ function calculateSectionScores(){
 		// populate it
 		reccap_section.questions.forEach((question, questionIndex) => {
 
+			question.goal = '';
+
 			question.answerCats = [];
 			question.answerScores = [];
 
@@ -265,7 +267,16 @@ function Reccap_testQuestion(question, reccap_viewState) {
 	}
 
 
-	
+	// goal status
+	var goal_status = reccap_viewState.goal_status;
+	console.log('goal status is ' + goal_status)
+	if(goal_status == 'Has Goals'){		
+		if(question.goal == '') return false;
+	}
+
+	if(goal_status == 'No Goals'){
+		if(question.goal != '') return false;
+	}	
 
 
 
@@ -290,13 +301,16 @@ function Reccap_testQuestion(question, reccap_viewState) {
 
 var SectionsCollapsed = false; // this should maybe be scoped somewhere
 
+var ShowingGoals = true;
+
 
 Reccap_writeAssessmentHTML = function (){
 
 	var reccap_viewState = {
 		search_string : document.getElementById('search_str').value.toUpperCase(),
 		selected_set : document.getElementById('filter1').value,
-		change_status : document.getElementById('filter2').value
+		change_status : document.getElementById('filter2').value,
+		goal_status :  document.getElementById('filter3').value,
 	}
 
 
@@ -338,7 +352,7 @@ Reccap_writeAssessmentHTML = function (){
 						var score = reccap_section.scores[dateIndex];
 
 						var scoreClass = "med";
-						if(score < 35) scoreClass = "low";
+						if(score < 34) scoreClass = "low";
 						if(score > 65) scoreClass = "high";
 
 						sectionHtml += 
@@ -362,14 +376,21 @@ Reccap_writeAssessmentHTML = function (){
 		// GENERATE ROWS OF QUESTIONS
 		var	displayingAtLeastOne = false;
 
-		reccap_section.questions.forEach(question => {
+		reccap_section.questions.forEach((question, questionIndex) => {
 
 				if(!Reccap_testQuestion(question, reccap_viewState)) return;
 
 				displayingAtLeastOne = true;
 
+				var deeplinkStr = sectionIndex + '_' + questionIndex;
+
+				var noteTriggerStyle = (question.goal == '') ? 'default' : 'goalset';
+
 				sectionHtml += '<div class="row">' +
-								'<div class="col1">' + question.text + '</div>';
+								'<div class="col1 questionText" onclick="noteToggle(\'' + deeplinkStr + '\')">' + 
+									'<span 	class="noteTrigger ' + noteTriggerStyle + '" id="noteTrigger_' + deeplinkStr + '">O</span>' +
+									question.text + 
+								'</div>';
 
 							question.answers.forEach((answer, answerIndex) => {
 
@@ -379,6 +400,20 @@ Reccap_writeAssessmentHTML = function (){
 							})
 
 				sectionHtml += '</div>';
+
+				var displayNote = (question.goal == '' || !ShowingGoals) ? 'none' : 'block';
+				var displayInput = (question.goal == '') ? 'block' : 'none';
+
+				sectionHtml += '<div class="row" id="goalLineRow_' + deeplinkStr + '" style="display: ' + displayNote + '">' +
+									'<div class="col1 goalLine" id="goalLine_' + deeplinkStr + '">' + 
+										'<span id="goalDisplayLine_' + deeplinkStr + '" onclick="openNote(\'' + deeplinkStr + '\')" />' +
+											question.goal + 
+										'</span>' + 
+										'<input type="text" id="goalInputLine_' + deeplinkStr + '" ' + 
+												'value="' + question.goal + '" ' +
+												'onblur="saveNote(\'' + deeplinkStr + '\')" style="display: ' + displayInput + '" />' + 
+									'</div>' + 
+								'</div>';
 			}
 		);
 		
@@ -469,6 +504,73 @@ function toggleSection(sectionIndex) {
 
 	document.getElementById('innerCanvas').style.height = (window.innerHeight - 310) + 'px';
 }
+
+
+
+
+
+// NOTE STUFF
+noteToggle = function(deeplinkStr){
+	
+	var noteStyle 	= document.getElementById('goalLineRow_' + deeplinkStr).style;
+
+	if(noteStyle.display == 'none') {
+		noteStyle.display = 'block';
+	}
+	else {		
+		saveNote(deeplinkStr);
+		noteStyle.display = 'none';
+	}
+}
+
+openNote = function(deeplinkStr){
+	document.getElementById('goalInputLine_' + deeplinkStr).style.display = 'inline-block';
+	document.getElementById('goalDisplayLine_' + deeplinkStr).style.display = 'none';
+}
+
+saveNote = function(deeplinkStr){
+
+	var inputNode 	= document.getElementById('goalInputLine_' + deeplinkStr);
+	var textNode = document.getElementById('goalDisplayLine_' + deeplinkStr);
+
+
+	var noteText 		= inputNode.value;
+	var sectionNum 		= deeplinkStr.split('_')[0];
+	var questionNum 	= deeplinkStr.split('_')[1];
+
+
+	// UPDATE DATA MODEL
+	var question = reccap_records.sections[sectionNum].questions[questionNum];
+	question.goal = noteText;
+
+
+	// UPDATE SERVER VIA AJAX
+	console.log('Calling Save Note API: ' + sectionNum + ' ' + questionNum + ' ' + noteText);
+
+
+	// UPDATE HTML
+	if(noteText == '') {
+		document.getElementById('noteTrigger_' + deeplinkStr).classList.remove('goalset');
+		return;
+	}
+
+	textNode.innerHTML = noteText; 
+	textNode.style.display = 'inline-block';
+	inputNode.style.display = 'none';
+
+	document.getElementById('noteTrigger_' + deeplinkStr).classList.add('goalset');
+
+
+
+}
+
+showGoals = function(){
+	ShowingGoals = document.getElementById('showGoals_trigger').checked;
+	Reccap_writeAssessmentHTML();
+}
+
+
+
 
 
 // This script only loads once the page is loaded - so call DOM stuff inline, not onload (since it's already loaded)

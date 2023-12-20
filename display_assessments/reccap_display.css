@@ -38,9 +38,14 @@ html, body {
 
 
 .controls {
-	padding: 10px 15px 0;
-	border-bottom: solid 2px #ddd;
+	padding: 20px 25px 0;
 	background: #f6f8fa;
+}
+
+.controls2 {
+	padding: 10px 25px 10px;
+	border-bottom: solid 2px #ddd;
+
 }
 
 .controls label {
@@ -52,7 +57,7 @@ html, body {
 	border-radius: 15px;
 	border: solid 1px #ccc;
 	font-size: 20px;
-	margin: 10px 10px 20px;
+	
 	display: inline-block;
 	padding: 0 10px;
 }
@@ -185,23 +190,33 @@ html, body {
 }
 
 
-.reccap_section .row .low {
-	background: red;
-}
-
-.reccap_section .row .med {
-	background: #555;
-}
-
-
-.reccap_section .row .high {
-	background: green;
-}
 
 .reccap_section .row .col1 {
 	font-size: 14px;
 }
 
+.reccap_section .row  .noteTrigger {
+	padding-right: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.reccap_section .row  .questionText {
+	cursor: pointer;
+}
+
+.reccap_section .row  .noteTrigger.goalset {
+	color: red;
+}
+
+
+.reccap_section .row .goalLine {
+	font-size: 12px; 
+	font-style: italic;
+	padding-left: 40px;
+	line-height: 14px;
+	cursor: pointer;
+}
 
 .reccap_section .row .btn {
 	border-radius: 5px;
@@ -215,6 +230,18 @@ html, body {
 	text-transform: uppercase;
 }
 
+.reccap_section .row .low {
+	background: red;
+}
+
+.reccap_section .row .med {
+	background: #555;
+}
+
+
+.reccap_section .row .high {
+	background: green;
+}
 
 
 

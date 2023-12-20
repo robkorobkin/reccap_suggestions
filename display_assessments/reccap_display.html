@@ -9,9 +9,6 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-
-	
 	
 
 	<script>
@@ -82,9 +79,18 @@
 					<option>Has Not Changed</option>
 				</select>
 
+				
+				<select id="filter3" onchange="Reccap_writeAssessmentHTML()">
+					<option>All</option>
+					<option>Has Goals</option>
+					<option>No Goals</option>
+				</select>
+
+				<input type="checkbox" onchange="showGoals()" id="showGoals_trigger" checked="checked" />
+				<label for="showGoals_trigger">Show Goals</label>
+
 				<button id="collapseCtrl" onclick="toggleSections()">Collapse</button>
 
-				
 			</div>
 
 
