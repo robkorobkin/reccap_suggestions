@@ -38,7 +38,7 @@ html, body {
 
 
 .controls {
-	padding: 20px 25px 0;
+	padding: 15px 25px 20px;
 	background: #f6f8fa;
 }
 
@@ -97,12 +97,17 @@ html, body {
 
 }
 
+#chartHeader img {
+	width: 15px; margin-top: 5px;
+}
+
 #chartHeader .data_col {
 	background: white;
 	margin: 5px 0;
 	padding: 8px 8px 0 ;
 	box-sizing: border-box;
 	text-align: center;
+	cursor: pointer;
 }
 
 #chartHeader .date {
@@ -111,12 +116,24 @@ html, body {
 	padding-bottom: 5px;
 }
 
+#chartHeader .asc .date {
+	color: green;
+}
+
+#chartHeader .desc .date {
+	color: red;
+}
+
 #chartHeader .headerScore {
 	font-size: 20px;
 	line-height: 25px;
 	font-weight: bold;
 	font-style: normal;
 }
+#chartHeader .data_col .headerScore:hover {
+	text-decoration: underline;
+}
+
 
 
 #innerCanvas {

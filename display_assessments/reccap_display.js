@@ -111,7 +111,7 @@ function calculateSectionScores(){
 
 	reccap_records.sections.forEach((reccap_section, sectionIndex) => { 
 
-		reccap_section.display = false;
+		reccap_section.open = false;
 
 		// this is what we're updating in the data model
 		reccap_section.scores = [];
@@ -269,7 +269,6 @@ function Reccap_testQuestion(question, reccap_viewState) {
 
 	// goal status
 	var goal_status = reccap_viewState.goal_status;
-	console.log('goal status is ' + goal_status)
 	if(goal_status == 'Has Goals'){		
 		if(question.goal == '') return false;
 	}
@@ -287,7 +286,27 @@ function Reccap_testQuestion(question, reccap_viewState) {
 }
 
 
+function Reccap_sortByDate(dateIndex, SortOrder){
 
+	// sort the sections
+	reccap_records.sections.sort(function(a, b){
+		if(SortOrder == 'asc'){
+			return (a.scores[dateIndex] < b.scores[dateIndex]);	
+		}
+		else return (a.scores[dateIndex] > b.scores[dateIndex]);
+	});
+
+	// sort the questions
+	reccap_records.sections.forEach(section => {
+		section.questions.sort(function(a, b){
+			if(SortOrder == 'asc'){
+				return (a.answerScores[dateIndex] < b.answerScores[dateIndex]);	
+			}
+			else return (a.answerScores[dateIndex] > b.answerScores[dateIndex]);
+		});
+	})
+
+}
 
 
 
@@ -302,6 +321,10 @@ function Reccap_testQuestion(question, reccap_viewState) {
 var SectionsCollapsed = false; // this should maybe be scoped somewhere
 
 var ShowingGoals = true;
+
+var SortOrder = 'desc';
+
+var SortCol = -1; 
 
 
 Reccap_writeAssessmentHTML = function (){
@@ -322,9 +345,12 @@ Reccap_writeAssessmentHTML = function (){
 						var score 		= reccap_records.reccap_scores[dateIndex];
 						var scoreCat 	= reccap_records.reccap_scoreCats[dateIndex];
 
-						html += '<div class="data_col">' + 
+						html += '<div class="data_col" id="colheader_' + dateIndex + '" onclick="sortResults(' + dateIndex + ')">' + 
 									'<div class="date">' + date + '</div>' +
 									'<div class="headerScore ' + scoreCat + '">' + score + '%</div>' +
+									// '<img src="triangle_default.png" onclick="sortBy(' + dateIndex + ', \'default\')"  />' +
+									// '<img src="triangle_up.png"   onclick="sortBy(' + dateIndex + ', \'up\')" />' +
+									// '<img src="triangle_down.png"  onclick="sortBy(' + dateIndex + ', \'down\')" />' +
 								'</div>';
 					});
 
@@ -364,7 +390,7 @@ Reccap_writeAssessmentHTML = function (){
 		
 
 		// exapand / collapse rows
-		var displayRows = (reccap_section.display) ? 'block' : 'none';
+		var displayRows = (reccap_section.open) ? 'block' : 'none';
 
 		sectionHtml +=	
 				'</div>' +
@@ -410,7 +436,7 @@ Reccap_writeAssessmentHTML = function (){
 											question.goal + 
 										'</span>' + 
 										'<input type="text" id="goalInputLine_' + deeplinkStr + '" ' + 
-												'value="' + question.goal + '" ' +
+												'value="' + question.goal + '" placeholder="How will you take action?"' +
 												'onblur="saveNote(\'' + deeplinkStr + '\')" style="display: ' + displayInput + '" />' + 
 									'</div>' + 
 								'</div>';
@@ -452,7 +478,7 @@ function toggleSections(){
 		var questionSections = document.getElementsByClassName('reccap_section_body');
 		for(var sectionIndex = 0; sectionIndex < questionSections.length; sectionIndex++){
 			questionSections[sectionIndex].style.display = 'block';
-			reccap_records.sections[sectionIndex].display = true;
+			reccap_records.sections[sectionIndex].open = true;
 		}
 
 		SectionsCollapsed = false;
@@ -469,7 +495,7 @@ function toggleSections(){
 		var questionSections = document.getElementsByClassName('reccap_section_body');
 		for(var sectionIndex = 0; sectionIndex < questionSections.length; sectionIndex++){
 			questionSections[sectionIndex].style.display = 'none';
-			reccap_records.sections[sectionIndex].display = false;
+			reccap_records.sections[sectionIndex].open = false;
 		}
 
 		SectionsCollapsed = true;
@@ -492,13 +518,13 @@ function toggleSection(sectionIndex) {
 		sectionQuestions.style.display = 'none';
 
 		// update data model
-		reccap_records.sections[sectionIndex].display = false;
+		reccap_records.sections[sectionIndex].open = false;
 	}
 	else if(sectionQuestions.style.display == 'none') {
 		sectionQuestions.style.display = 'block';
 
 		// update data model
-		reccap_records.sections[sectionIndex].display = true;
+		reccap_records.sections[sectionIndex].open = true;
 	}
 
 
@@ -569,6 +595,30 @@ showGoals = function(){
 	Reccap_writeAssessmentHTML();
 }
 
+sortResults = function(dateIndex){
+
+	// if it's the column that's already selected, flip asc / desc
+	if(dateIndex == SortCol){
+		SortOrder = (SortOrder == 'desc') ? 'asc' : 'desc';
+	}
+
+
+	// sort data model
+	Reccap_sortByDate(dateIndex, SortOrder);
+
+
+	// redraw html
+	Reccap_writeAssessmentHTML();
+
+
+	// change chart header state
+
+
+	// if it's a new column, keep the asc / desc, sort by the new column
+	document.getElementById('colheader_' + dateIndex).classList.add(SortOrder);
+
+	SortCol = dateIndex;
+}
 
 
 
