@@ -235,6 +235,11 @@ html, body {
 	cursor: pointer;
 }
 
+.reccap_section .row .goalLine input {
+	width: 400px;
+}
+
+
 .reccap_section .row .btn {
 	border-radius: 5px;
 	color: white;

@@ -437,7 +437,8 @@ Reccap_writeAssessmentHTML = function (){
 										'</span>' + 
 										'<input type="text" id="goalInputLine_' + deeplinkStr + '" ' + 
 												'value="' + question.goal + '" placeholder="How will you take action?"' +
-												'onblur="saveNote(\'' + deeplinkStr + '\')" style="display: ' + displayInput + '" />' + 
+												'onblur="saveNote(\'' + deeplinkStr + '\')" onkeyup="keyupNote(event, \'' + deeplinkStr + '\')"' +
+												' style="display: ' + displayInput + '" />' + 
 									'</div>' + 
 								'</div>';
 			}
@@ -552,6 +553,10 @@ noteToggle = function(deeplinkStr){
 openNote = function(deeplinkStr){
 	document.getElementById('goalInputLine_' + deeplinkStr).style.display = 'inline-block';
 	document.getElementById('goalDisplayLine_' + deeplinkStr).style.display = 'none';
+}
+
+keyupNote = function(event, deeplinkStr){
+	if(event.key == 'Enter') saveNote(deeplinkStr);
 }
 
 saveNote = function(deeplinkStr){
