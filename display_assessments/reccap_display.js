@@ -565,39 +565,38 @@ openNote = function(deeplinkStr){
 
 keyupNote = function(event, deeplinkStr){
 
+
+	// are we paging through the interface?
 	var direction = false;
-
-	if(event.key == 'Enter' || event.key == 'ArrowDown' || event.key == 'ArrowRight' || event.key == 'Tab' ) direction = 'forward';
-
-	if(event.key == 'ArrowUp' || event.key == 'ArrowLeft') direction = 'back';
-
+	if(event.key == 'Enter' || event.key == 'ArrowDown' || event.key == 'Tab' ) direction = 'forward';
+	if(event.key == 'ArrowUp') direction = 'back';
 	if(direction) {	
-
-
+		event.preventDefault(); // handle tab (default behavior is a blur)
 		
-		// save it
+
+		// save the one you're leaving
 		saveNote(deeplinkStr);
 
-		// get the next one
+
+		// select the next one \ previous one
 		var i = QuestionsDisplayingArray.indexOf(deeplinkStr);
 		if(direction == 'forward'){
 			i++;
 			if(i == QuestionsDisplayingArray.length) i = 0;
 		}
-
 		if(direction == 'back'){
 			i--;
 			if(i == -1) i = QuestionsDisplayingArray.length - 1;
 		}		
-		
 		var newDeepLink = QuestionsDisplayingArray[i];
 
-		// open the input
+
+		// open the selected input
 		document.getElementById('goalLineRow_' + newDeepLink).style.display = 'block';
 		openNote(newDeepLink);
 
 		
-	
+		// expand all the questions (prevents you from skipping to a hidden question in a collapsed setion)
 		SectionsCollapsed = true;
 		toggleSections();
 
