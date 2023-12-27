@@ -336,6 +336,8 @@ Reccap_writeAssessmentHTML = function (){
 		goal_status :  document.getElementById('filter3').value,
 	}
 
+	QuestionsDisplayingArray = [];
+
 
 	// CHART HEADER - DATE, OVER ALL SCORE, GLUE TO TOP
 	var html = 	'<div id="chartHeader">' +
@@ -409,6 +411,7 @@ Reccap_writeAssessmentHTML = function (){
 				displayingAtLeastOne = true;
 
 				var deeplinkStr = sectionIndex + '_' + questionIndex;
+				QuestionsDisplayingArray.push(deeplinkStr);
 
 				var noteTriggerStyle = (question.goal == '') ? 'default' : 'goalset';
 
@@ -428,7 +431,7 @@ Reccap_writeAssessmentHTML = function (){
 				sectionHtml += '</div>';
 
 				var displayNote = (question.goal == '' || !ShowingGoals) ? 'none' : 'block';
-				var displayInput = (question.goal == '') ? 'block' : 'none';
+				var displayInput = (question.goal == '') ? 'inline-block' : 'none';
 
 				sectionHtml += '<div class="row" id="goalLineRow_' + deeplinkStr + '" style="display: ' + displayNote + '">' +
 									'<div class="col1 goalLine" id="goalLine_' + deeplinkStr + '">' + 
@@ -437,7 +440,7 @@ Reccap_writeAssessmentHTML = function (){
 										'</span>' + 
 										'<input type="text" id="goalInputLine_' + deeplinkStr + '" ' + 
 												'value="' + question.goal + '" placeholder="How will you take action?"' +
-												'onblur="saveNote(\'' + deeplinkStr + '\')" onkeyup="keyupNote(event, \'' + deeplinkStr + '\')"' +
+												'onblur="saveNote(\'' + deeplinkStr + '\')" onkeydown="keyupNote(event, \'' + deeplinkStr + '\')"' +
 												' style="display: ' + displayInput + '" />' + 
 									'</div>' + 
 								'</div>';
@@ -543,6 +546,8 @@ noteToggle = function(deeplinkStr){
 
 	if(noteStyle.display == 'none') {
 		noteStyle.display = 'block';
+		var inputNode = document.getElementById('goalInputLine_' + deeplinkStr);
+		if(inputNode.style.display == 'inline-block') inputNode.focus();
 	}
 	else {		
 		saveNote(deeplinkStr);
@@ -551,12 +556,52 @@ noteToggle = function(deeplinkStr){
 }
 
 openNote = function(deeplinkStr){
-	document.getElementById('goalInputLine_' + deeplinkStr).style.display = 'inline-block';
+	var inputNode = document.getElementById('goalInputLine_' + deeplinkStr);
+	inputNode.style.display = 'inline-block';
+	inputNode.focus();
+
 	document.getElementById('goalDisplayLine_' + deeplinkStr).style.display = 'none';
 }
 
 keyupNote = function(event, deeplinkStr){
-	if(event.key == 'Enter') saveNote(deeplinkStr);
+
+	var direction = false;
+
+	if(event.key == 'Enter' || event.key == 'ArrowDown' || event.key == 'ArrowRight' || event.key == 'Tab' ) direction = 'forward';
+
+	if(event.key == 'ArrowUp' || event.key == 'ArrowLeft') direction = 'back';
+
+	if(direction) {	
+
+
+		
+		// save it
+		saveNote(deeplinkStr);
+
+		// get the next one
+		var i = QuestionsDisplayingArray.indexOf(deeplinkStr);
+		if(direction == 'forward'){
+			i++;
+			if(i == QuestionsDisplayingArray.length) i = 0;
+		}
+
+		if(direction == 'back'){
+			i--;
+			if(i == -1) i = QuestionsDisplayingArray.length - 1;
+		}		
+		
+		var newDeepLink = QuestionsDisplayingArray[i];
+
+		// open the input
+		document.getElementById('goalLineRow_' + newDeepLink).style.display = 'block';
+		openNote(newDeepLink);
+
+		
+	
+		SectionsCollapsed = true;
+		toggleSections();
+
+	}
 }
 
 saveNote = function(deeplinkStr){
