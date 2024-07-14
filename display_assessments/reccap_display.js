@@ -1,107 +1,4 @@
 
-
-var reccap_records = {
-
-	'test_dates' : ['10/11/2023', '11/26/2023'],
-
-	// array of reccap_section objects
-	'sections' : [
-
-		{
-			'title' : 'Coping and Life Functioning',
-
-			'questions' : [
-				{
-					'text' : 'Eats regularly and has a balanced diet',
-					'answers' : ['No', 'No']
-				},
-				{
-					'text' : 'Has sufficient privacy',
-					'answers' : ['Yes', 'No']
-				},
-				{
-					'text' : 'Promptly committed to obligations',
-					'answers' : ['Yes', 'No']
-				},
-				{
-					'text' : 'Is happy dealing with a range of professional people',
-					'answers' : ['Yes', 'Yes']
-				},
-				{
-					'text' : 'Does not let other people down',
-					'answers' : ['No', 'No']
-				},
-
-			]				
-		},
-
-		{
-			'title' : 'Social Support',
-
-			'questions' : [
-				{
-					'text' : 'Gets a lot of support from friends' ,
-					'answers' : ['Yes', 'Yes']
-				},
-				{
-					'text' : 'Receives emotional help and support from family',
-					'answers' : ['Yes', 'No']
-				},
-				{
-					'text' : 'Has a special person to share joys and sorrows with',
-					'answers' : ['Yes', 'No']
-				},
-				{
-					'text' : 'Is happy with personal life',
-					'answers' : ['No', 'Yes']
-				},
-				{
-					'text' : 'Is satisfied with the involvement with family',
-					'answers' : ['Yes', 'Yes']
-				},
-
-			]				
-		},
-
-		{
-			'title' : 'Quality of Life and Satisfaction',
-
-			'questions' : [
-				{
-					'text' 		: 'How good is your psychological health?' ,
-					'answers' 	: ['12', '17'],
-					'type'		: '20'
-				},
-				{
-					'text' : 'How good is your physical health?',
-					'answers' : ['18', '18'],
-					'type'		: '20'
-				},
-				{
-					'text' : 'How would you rate your overall quality of life?',
-					'answers' : ['12', '9'],
-					'type'		: '20'
-				},
-				{
-					'text' : 'How would you rate the quality of your accommodation?',
-					'answers' : ['19', '15'],
-					'type'		: '20'
-				},
-				{
-					'text' : 'How would you rate your support network?',
-					'answers' : ['2', '18'],
-					'type'		: '20'
-				},
-
-			]				
-		}
-
-	]
-
-}
-
-
-
 // calculate section scores - part of loading data object, could come from server too
 function calculateSectionScores(){
 
@@ -141,18 +38,29 @@ function calculateSectionScores(){
 			question.answerScores = [];
 
 			question.answers.forEach((answer, examIndex) => {
-				if(answer == "No") {
+				if(	answer == "No" || 
+					(question.type == "YesNo" && answer == 1) ||
+					(question.type == "NoYes" && answer == 0) ) {
+					
+					question.answers[examIndex] = 'No';
+
 					answerNum = 0;
 					question.answerCats.push('low')
 				}
-				else if(answer == "Yes") {
+
+				else if(answer == "Yes" || 
+					(question.type == "YesNo" && answer == 0) ||
+					(question.type == "NoYes" && answer == 1) ) {
+
+					question.answers[examIndex] = 'Yes';
+
 					answerNum = 1;
 					question.answerCats.push('high')
 				}
 				else {
 					// if it's a number
 					var aNum = parseFloat(answer);
-					if(aNum){
+					if(aNum || (aNum + 1 == 1)){
 						var denominator = parseFloat(question.type);
 						var answerNum = aNum / denominator;
 
@@ -199,7 +107,6 @@ function calculateSectionScores(){
 		
 
 }
-calculateSectionScores();
 
 
 
@@ -673,8 +580,45 @@ sortResults = function(dateIndex){
 
 
 // This script only loads once the page is loaded - so call DOM stuff inline, not onload (since it's already loaded)
-Reccap_writeAssessmentHTML();
-toggleSections();
+function loadClient(client_id){
+
+	// RESET VIEW
+	reccap_records.test_dates = [];
+	reccap_records.sections.forEach((reccap_section) => { 
+		reccap_section.questions.forEach((question) => {
+			question.answers = [];
+
+		})
+	});
+
+
+
+	// LOAD CLIENT #5109297
+	reccap_data.forEach(assessment => {
+
+		// if it's the right user
+		if(assessment[datafileKeys.indexOf('client_id')] == client_id){
+
+			// add the column
+			reccap_records.test_dates.push(assessment[datafileKeys.indexOf('summary_date')]);
+
+			// add the answers
+			reccap_records.sections.forEach((reccap_section) => { 
+				reccap_section.questions.forEach((question) => {
+					var slug = question.slug;
+					question.answers.push(assessment[datafileKeys.indexOf(slug)])
+				})
+			});
+
+		}
+	});
+
+
+	calculateSectionScores();
+	Reccap_writeAssessmentHTML();
+	toggleSections();
+
+}
 
 window.onresize = function(){
 	document.getElementById('innerCanvas').style.height = (window.innerHeight - 310) + 'px';

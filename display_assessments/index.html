@@ -11,13 +11,15 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 	
 
+
 	<script>
+
 
 		/** LOAD DEMO CLIENT - AVOID CACHING **/
 		window.onload = function(){
 
 			var client = {
-				js : 	['reccap_display.js'],
+				js : 	['schema.js', 'reccap_display.js', 'reccap_loader.js'],
 				css : 	['reccap_display.css']
 			}
 
@@ -53,7 +55,10 @@
 
 	<div class="mainWrap">
 
-		<div class="nameLine">Rob Korobkin</div>
+		<div class="nameLine" id="clientSelectorFrame">
+			<input type="file" onchange="ReccapLoader_readFile()" id="sourcefileNode" />
+			<select id="clientSelector" onchange="loadClient(this.value)"  style="display: none"></select>
+		</div>
 
 		<div class="mainContent">
 
