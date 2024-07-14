@@ -188,10 +188,20 @@ html, body {
 	display: block;
 }
 
+
 .reccap_section .header .col1 {
 	font-weight: bold;
 	font-size: 16px;
 }
+
+#chartHeader .clientDisplayName {
+	font-weight: bold;
+	line-height: 60px;
+	font-size: 23px;
+}
+
+
+
 .reccap_section .header .date {
 	font-size: 12px;
 	font-style: italic;
@@ -273,7 +283,7 @@ html, body {
 
 .col1 {
 	width: 500px;
-	padding-left: 10px;
+	padding-left: 20px;
 	float: left;
 }
 

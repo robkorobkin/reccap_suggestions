@@ -248,7 +248,10 @@ Reccap_writeAssessmentHTML = function (){
 
 	// CHART HEADER - DATE, OVER ALL SCORE, GLUE TO TOP
 	var html = 	'<div id="chartHeader">' +
-					'<div class="col1">&nbsp;</div>'; // burn one
+					'<div class="col1">' +
+						'<div class="clientDisplayName">' + SelectedClientName + '</div>' +
+
+					'</div>'; // burn one
 	
 					reccap_records.test_dates.forEach( (date, dateIndex) => {
 						var score 		= reccap_records.reccap_scores[dateIndex];
@@ -609,6 +612,8 @@ function loadClient(client_id){
 					question.answers.push(assessment[datafileKeys.indexOf(slug)])
 				})
 			});
+
+			SelectedClientName = test_takers[client_id];
 
 		}
 	});
