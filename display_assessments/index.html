@@ -19,7 +19,7 @@
 		window.onload = function(){
 
 			var client = {
-				js : 	['schema.js', 'reccap_display.js', 'reccap_loader.js'],
+				js : 	['schema.js', 'reccap_dummy.js', 'reccap_display.js', 'reccap_loader.js'],
 				css : 	['reccap_display.css']
 			}
 
@@ -104,7 +104,7 @@
 
 				<div id="loadScreen" style="padding: 30px">
 				
-					<p><b>To Load:</b></p>
+					<p><b>To Load Your Data:</b></p>
 
 					<p>1. In ARMS Recovery Management, select "Reports" in the Main Menu left sidebar.</p>
 
@@ -116,6 +116,10 @@
 
 					<p>NOTE: No information is ever uploaded to our server - your browser just reads the file that's already on your computer.</p>
 
+
+					<p></p>
+					<p>---</p>
+					<p style="font-style: italic;">Click here to <a onclick="ReccapLoader_loadDummy()" class="demoLink">Run A Demo</a></p>
 				</div>
 
 

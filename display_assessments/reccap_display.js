@@ -585,6 +585,7 @@ sortResults = function(dateIndex){
 // This script only loads once the page is loaded - so call DOM stuff inline, not onload (since it's already loaded)
 function loadClient(client_id){
 
+	
 	// RESET VIEW
 	reccap_records.test_dates = [];
 	reccap_records.sections.forEach((reccap_section) => { 
@@ -596,7 +597,7 @@ function loadClient(client_id){
 
 
 
-	// LOAD CLIENT #5109297
+	// LOAD CLIENT
 	reccap_data.forEach(assessment => {
 
 		// if it's the right user
@@ -621,7 +622,11 @@ function loadClient(client_id){
 
 	calculateSectionScores();
 	Reccap_writeAssessmentHTML();
+
+	SectionsCollapsed = false;
 	toggleSections();
+
+	
 
 }
 

@@ -17,6 +17,12 @@ ReccapLoader_readFile = function(){
 	}
 }
 
+ReccapLoader_loadDummy = function(){
+	reccap_dummy = reccap_dummy.replaceAll("---", "\n");
+	ReccapLoader_processFile(reccap_dummy);
+	loadClient(5110437);
+}
+
 
 ReccapLoader_processFile = function(dataFileStr){
 	var dataFileArray = CSVToArray(dataFileStr, ",");
@@ -53,7 +59,6 @@ ReccapLoader_processFile = function(dataFileStr){
 	document.getElementById('sourcefileNode').style.display = 'none';
 
 }
-
 
 
 

@@ -277,7 +277,15 @@ html, body {
 }
 
 
+.demoLink {
+	color: green;
+	font-weight: bold;
+	cursor: pointer;
+}
 
+.demoLink:hover {
+	text-decoration: underline;
+}
 
 
 
