@@ -40,7 +40,8 @@ function calculateSectionScores(){
 			question.answers.forEach((answer, examIndex) => {
 				if(	answer == "No" || 
 					(question.type == "YesNo" && answer == 1) ||
-					(question.type == "NoYes" && answer == 0) ) {
+					(question.type == "NoYes" && answer == 0) ||
+					(question.type == "YesNoSimplify" && answer != 0)) {
 					
 					question.answers[examIndex] = 'No';
 
@@ -50,7 +51,8 @@ function calculateSectionScores(){
 
 				else if(answer == "Yes" || 
 					(question.type == "YesNo" && answer == 0) ||
-					(question.type == "NoYes" && answer == 1) ) {
+					(question.type == "NoYes" && answer == 1) ||
+					(question.type == "YesNoSimplify" && answer == 0)) {
 
 					question.answers[examIndex] = 'Yes';
 

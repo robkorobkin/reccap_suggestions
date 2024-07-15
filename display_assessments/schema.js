@@ -286,19 +286,19 @@ reccap_records = {
                 {
                     "slug": "substanceUse_usedSubstances",
                     "sectionNum": "6",
-                    "text": "Have you used any legal or illegal substances in the last 90 days?",
-                    "type": "YesNo",
+                    "text": "Have you used abstained from using substances in the last 90 days?",
+                    "type": "YesNoSimplify",
                     "range": "0-4",
                     "answers": []
                 },
-                {
-                    "slug": "substanceUse_sumDaysUsed",
-                    "sectionNum": "6",
-                    "text": "Have you abstained from drugs for the last three months?",
-                    "type": "YesNo",
-                    "range": "",
-                    "answers": []
-                }
+                // {
+                //     "slug": "substanceUse_sumDaysUsed",
+                //     "sectionNum": "6",
+                //     "text": "Have you abstained from drugs for the last three months?",
+                //     "type": "YesNo",
+                //     "range": "",
+                //     "answers": []
+                // }
             ]
         },
         {
