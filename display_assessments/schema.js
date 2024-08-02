@@ -200,15 +200,16 @@ reccap_records = {
                     "type": "YesNo",
                     "range": "0-1",
                     "answers": []
-                },
-                {
-                    "slug": "barrier_wtv",
-                    "sectionNum": "4",
-                    "text": "Are you free of WTV problems?",
-                    "type": "YesNo",
-                    "range": "0-1",
-                    "answers": []
                 }
+                // ,
+                // {
+                //     "slug": "barrier_wtv",
+                //     "sectionNum": "4",
+                //     "text": "Are you free of WTV problems?",
+                //     "type": "YesNo",
+                //     "range": "0-1",
+                //     "answers": []
+                // }
             ]
         },
         {
@@ -286,7 +287,7 @@ reccap_records = {
                 {
                     "slug": "substanceUse_usedSubstances",
                     "sectionNum": "6",
-                    "text": "Have you used abstained from using substances in the last 90 days?",
+                    "text": "Have you abstained from using substances in the last 90 days?",
                     "type": "YesNoSimplify",
                     "range": "0-4",
                     "answers": []
